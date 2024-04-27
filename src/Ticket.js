@@ -6,7 +6,9 @@ class Ticket {
      * Ticket constructor will receive username and price
      * @param {string} username 
      * @param {number} price 
-     */
+     
+    */
+    
 
     constructor(username,price){
         this.id = shortid.generate();
