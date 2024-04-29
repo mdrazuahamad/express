@@ -1,0 +1,60 @@
+GET http://localhost:4000/health
+
+###
+
+GET http://localhost:4000/api/v1/tickets
+
+
+
+###
+
+POST http://localhost:4000/api/v1/tickets
+Content-Type: application/json
+
+
+{
+    "username": "imram",
+    "price": 50
+}
+
+###
+
+POST http://localhost:4000/api/v1/tickets/bulk
+Content-Type: application/json
+
+
+{
+    "username": "Mamun",
+    "price": 50,
+    "quantity": 5
+}
+
+
+###
+GET  http://localhost:4000/api/v1/tickets/t/Az2FfFfEZ
+
+
+###
+
+GET  http://localhost:4000/api/v1/tickets/u/mdrazuahamad
+
+###
+
+DELETE   http://localhost:4000/api/v1/tickets/u/farabi
+
+
+
+
+###
+
+PUT    http://localhost:4000/api/v1/tickets/t/ZxO2oVr9m
+
+Content-Type: application/json
+
+{
+    "username": "Imran Hossen"
+}
+
+
+###
+GET    http://localhost:4000/api/v1/tickets/draw?wc=1

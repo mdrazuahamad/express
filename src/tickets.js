@@ -6,9 +6,10 @@ const tickets = Symbol('tickets')
 
 class TicketCollection {
     constructor() {
-        this[tickets] = [];
+        (async function () {
+            this[tickets] = await readFile();
+        }.call(this));
     }
-
     /**
      * create and save a new ticket
      * @param {string} username 
@@ -19,7 +20,8 @@ class TicketCollection {
     create(username, price) {
         const ticket = new Ticket(username, price);
         this[tickets].push(ticket);
-        return tickets;
+        writeFile(this[tickets]);
+        return ticket;
     }
 
     /**
@@ -36,6 +38,8 @@ class TicketCollection {
             const ticket = this.create(username, price)
             result.push(ticket);
         }
+
+        writeFile(this[tickets]);
         return result;
     }
 
@@ -73,14 +77,14 @@ class TicketCollection {
      */
 
     findByUsername(username) {
-        const tickets = this[tickets].filter(
+        const userTickets = this[tickets].filter(
             /**
              * @param {Ticket} ticket 
             */
 
             (ticket) => ticket.username === username
         );
-        return tickets;
+        return userTickets;
 
     }
 
@@ -94,10 +98,12 @@ class TicketCollection {
 
     updateById(ticketId, ticketBody) {
         const ticket = this.findById(ticketId)
-        if(ticket){
+        if (ticket) {
             ticket.username = ticketBody.username ?? ticket.username;
             ticket.price = ticketBody.price ?? ticket.price;
         }
+
+        writeFile(this[tickets]);
         return ticket;
     }
 
@@ -116,6 +122,8 @@ class TicketCollection {
              */
             (ticket) => this.updateById(ticket.id, ticketBody)
         );
+
+        writeFile(this[tickets]);
         return updateTickets;
 
     }
@@ -134,16 +142,18 @@ class TicketCollection {
             (ticket) => ticket.id === ticketId
         )
 
-        if (index = -1) {
+        if (index === -1) {
             return false
         } else {
             this[tickets].splice(index, 1);
-            return true
+
+            writeFile(this[tickets]);
+            return true;
         }
     }
 
     /**
-     * 
+     * bulk delete by username
      * @param {string} username
      * @return {boolean[]} 
      */
@@ -157,6 +167,8 @@ class TicketCollection {
 
 
         );
+
+        writeFile(this[tickets]);
         return deleteResult
 
 
@@ -197,4 +209,4 @@ class TicketCollection {
 
 const ticketCollection = new TicketCollection()
 
-module.exports= ticketCollection;
+module.exports = ticketCollection;
